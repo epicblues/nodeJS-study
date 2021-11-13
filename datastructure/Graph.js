@@ -41,22 +41,25 @@ createGraph("KMS", "PKH", "KHB", "KMG", "CJS", "KSI");
 
 const bfs = (start) => {
   const visited = new Set();
-  const queue = [start];
-  visited.add(start);
-  console.log(start);
+  const queue = [];
+  addSetAndEnqueue(queue, visited, start);
   while (queue.length > 0) {
     const airport = queue.shift();
     const destinations = adjacencyList.get(airport);
     for (const destination of destinations) {
       if (visited.has(destination)) continue;
-      queue.push(destination);
-      visited.add(destination);
-      console.log(destination);
+      addSetAndEnqueue(queue, visited, destination);
     }
   }
 };
 
-// bfs("KMS");
+const addSetAndEnqueue = (queue, set, data) => {
+  queue.push(data);
+  set.add(data);
+  console.log(data);
+};
+console.log(".............................. BFS");
+bfs("KMS");
 
 const visited = new Set();
 // 방문한 지역 확인용 set -> 중복 불가능한 특성을 이용
@@ -70,5 +73,5 @@ const dfs = (start, visited) => {
     dfs(destination, visited);
   }
 };
-
-dfs("PKH", visited);
+console.log(".............................. DFS");
+dfs("KMS", visited);
