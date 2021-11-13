@@ -14,5 +14,14 @@ try {
 }
 
 EventMan.emit("bakud");
-EventMan.emit("push");
+let stopTicker = 0;
+const timer = setInterval(() => {
+  stopTicker++;
+  if (stopTicker > 5) {
+    clearInterval(timer);
+    console.log("timer ended");
+    return;
+  }
+  EventMan.emit("push");
+}, 1000);
 console.log(EventMan.eventNames());
