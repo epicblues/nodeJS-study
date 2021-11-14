@@ -27,7 +27,7 @@ function Circle(radius) {
     configurable: true,
   });
   // return {}; <= 생성자 함수에서 명시적으로 특정 객체를 return 하면 new로 생성된 인스턴스가 return 되지 않는다.
-  return 100;
+  return 100; // <= 원시 값을 return 하면 그것을 무시하고 생성자 함수는 this를 반환한다.
 }
 
 const circle5 = new Circle(5);

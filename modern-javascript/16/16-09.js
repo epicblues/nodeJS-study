@@ -30,6 +30,6 @@ Object.defineProperty(person, "baku", {
 });
 
 person.baku = "bakayarodesu";
-Object.preventExtensions(person);
+Object.preventExtensions(person); // 객체 확장 금지
 
 for (let key in person) console.log(person[key]);

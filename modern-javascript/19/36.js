@@ -25,7 +25,7 @@ const NewPerson = (function () {
   function Person(name) {
     this.name = name;
   }
-
+  // 암묵적으로 추가한  프로퍼티  prototype과 constructor를 통해 연결
   Person.prototype = {
     sayHello() {
       console.log(`Hi ! My name is ${this.name}`);

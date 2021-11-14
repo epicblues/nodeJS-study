@@ -14,3 +14,4 @@ const b = new Object();
 console.log(Object.getPrototypeOf(b).constructor);
 
 console.log(Object.prototype.hasOwnProperty === b.hasOwnProperty);
+Object.prototype.hasOwnProperty.call(b, "name");
