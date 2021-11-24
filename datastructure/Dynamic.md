@@ -1,23 +1,48 @@
 # Dynamic Programming
-## 기존의 알고리즘 프로그래밍  
-* 재귀 함수 등을 통해 반복되는 결과값을 기억하지 못하고 다시 계산한다. 
-* 시간 복잡도 심화(여기의 경우 해당 함수에서 재귀 함수를 몇 번 call 하냐가 밑 수에 영향을 주었다)
+
+## 기존의 알고리즘 프로그래밍
+
+- 재귀 함수 등을 통해 반복되는 결과값을 기억하지 못하고 다시 계산한다.
+- 시간 복잡도 심화(여기의 경우 해당 함수에서 재귀 함수를 몇 번 call 하냐가 밑 수에 영향을 주었다)
+
 ## 다이나믹 프로그래밍
-* 반복되는 결과값을 따로 저장(보통은 key=value Pair)해서 시간 복잡도를 줄인다.
+
+- 반복되는 결과값을 따로 저장(보통은 key=value Pair)해서 시간 복잡도를 줄인다.
+
 ### ex) Fibonacci 함수
-~~~javascript
-  // 시간 복잡도 2**n
-  const fib = (n) => {
-    return fib(n-1) + fib(n-2)
-  }
-  
-  // 다이나믹 프로그래밍 적용 (시간 복잡도 : n, 공간 복잡도 : n (하나의 base case에 도달할 때까지 쌓인 Call Stack))
-  const fib = (n, memo = {}) => {
-    if(n <= 2) return 1; // base case
-    if(memo[n]) return memo[n]; // 이미 계산한 결과값이 있으므로 재귀 함수를 호출하지 않고 return
-    memo[n] = fib(n-1, memo) + fib(n-2, memo) 
-    // base case가 아니며 미리 계산한 결과값이 없으면 그 결과값을 저장하고 return한다.
-    return memo[n]; 
-    // 시작 지점에는 빈 메모로 시작하나, 하나의 base case에 도달하면 값들이 순차적으로 저장된다.  
-  }
-~~~
+
+```javascript
+// 시간 복잡도 2**n
+const fib = (n) => {
+  return fib(n - 1) + fib(n - 2);
+};
+
+// 다이나믹 프로그래밍 적용 (시간 복잡도 : n, 공간 복잡도 : n (하나의 base case에 도달할 때까지 쌓인 Call Stack))
+const fib = (n, memo = {}) => {
+  if (n <= 2) return 1; // base case
+  if (memo[n]) return memo[n]; // 이미 계산한 결과값이 있으므로 재귀 함수를 호출하지 않고 return
+  memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
+  // base case가 아니며 미리 계산한 결과값이 없으면 그 결과값을 저장하고 return한다.
+  return memo[n];
+  // 시작 지점에는 빈 메모로 시작하나, 하나의 base case에 도달하면 값들이 순차적으로 저장된다.
+};
+```
+
+### ex2) GridTraveler
+
+```javascript
+const gridTraveler = (m, n, memo = {}) => {
+  // 재귀 함수가 시작하기 전에 미리 계산된 값이 있는지 체크
+  const key = m + "," + n;
+  if (key in memo) return memo[key];
+  // base case
+  if (m === 1 && n === 1) return 1;
+  if (m === 0 || n === 0) return 0;
+  // 시간 복잡도 2^(n+m)
+  // base case 바로 위 case 부터 메모가 시작된다.
+  memo[m + "," + n] =
+    gridTraveler(m - 1, n, memo) + gridTraveler(m, n - 1, memo);
+  memo[n + "," + m] = memo[m + "," + n];
+  return memo[m + "," + n];
+};
+```
