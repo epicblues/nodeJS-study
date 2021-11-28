@@ -177,19 +177,22 @@ const canConstruct = (target, wordBank, memo = {}) => {
 // target.length : m, wordBank.length : n
 // Time : O(n^m*m) target.slice => 복잡성 증가(m의 길이만큼)
 // Space : O(m * m) target.slice 로 복사되는 배열
+```
 
-console.log(canConstruct("abcdegg", ["gg", "ff", "ab", "cde", "g"]));
-console.log(canConstruct("skateboard", ["rds", "bo", "ard", "te", "t", "ska"]));
-console.log(
-  canConstruct("skateboard", ["ska", "bo", "ar", "d", "skat", "tee"])
-);
-console.log(
-  canConstruct("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", [
-    "e",
-    "ee",
-    "eee",
-    "eeee",
-    "eeeee",
-  ])
-);
+### ex7) countConstruct
+
+```javascript
+const countStruct = (target, wordBank, memo = {}) => {
+  if (target in memo) return memo[target];
+  if (target === "") return 1;
+  let count = 0;
+  for (let word of wordBank) {
+    if (target.indexOf(word) === 0) {
+      const suffix = target.slice(word.length);
+      count += countStruct(suffix, wordBank, memo);
+    }
+  }
+  memo[target] = count;
+  return count;
+};
 ```
