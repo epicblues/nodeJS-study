@@ -196,3 +196,24 @@ const countStruct = (target, wordBank, memo = {}) => {
   return count;
 };
 ```
+
+### ex8) allConstruct
+
+```javascript
+const allConstruct = (target, wordBank, memo = {}) => {
+  if (target === "") return [[]];
+  if (memo[target]) return memo[target];
+  const result = [];
+  for (let word of wordBank) {
+    if (target.indexOf(word) === 0) {
+      const suffix = target.slice(word.length);
+      const suffixWays = allConstruct(suffix, wordBank, memo);
+      const targetWays = suffixWays.map((way) => [...way, word]);
+      result.push(...targetWays);
+    }
+  }
+  memo[target] = result;
+  // console.log(memo);
+  return memo[target];
+};
+```
