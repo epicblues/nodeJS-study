@@ -1,1 +1,54 @@
-<html>김민성 바부!</html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .button {
+        width: 5vw;
+        height: 5vw;
+        border-radius: 50%;
+        background-color: red;
+        position: fixed;
+        bottom: 5vw;
+        left: 47.5vw;
+        transition: 500ms all;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="start">gogo</div>
+    <div class="button"></div>
+    <div class="button"></div>
+    <div class="button"></div>
+    <div class="button"></div>
+    <div class="button"></div>
+    <div class="button"></div>
+    <script>
+      let moderator = 0;
+      const record = [
+        [50, 10],
+        [80, 20],
+        [80, 30],
+        [50, 40],
+        [20, 30],
+        [20, 20],
+      ];
+      const handleClick = (event) => {
+        const $button = event.currentTarget;
+      };
+
+      document.querySelector(".start").addEventListener("click", () => {
+        document.querySelectorAll(".button").forEach(($button) => {
+          if ($button instanceof HTMLDivElement) {
+            $button.style.bottom = `${record[moderator][1]}vw`;
+            $button.style.left = `${record[moderator][0]}vw`;
+            moderator++;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

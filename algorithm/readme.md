@@ -295,7 +295,31 @@ const canSum = (target, numbers) => {
 };
 // time : O(m*n)
 // space : O(m)
-console.log(canSum(5, [4, 3]));
-console.log(canSum(8, [2, 3, 5]));
-console.log(canSum(300, [7, 14]));
+```
+
+### ex4) howSum Tabulation
+
+```javascript
+const howSum = (target, numbers) => {
+  const table = Array(target + 1)
+    .fill()
+    .map(() => {
+      return null;
+    });
+
+  table[0] = []; // 빈 배열로 0을 만들 수 있다고 가정
+  for (let i = 0; i <= target; i++) {
+    if (table[i] !== null) {
+      for (let num of numbers) {
+        const newNum = i + num;
+        if (newNum > target) continue;
+        if (table[newNum] === null) table[newNum] = [...table[i], num];
+        if (newNum === target) return table[newNum];
+      }
+    }
+  }
+  return table[target];
+};
+
+console.log(howSum(5, [2, 1]));
 ```
