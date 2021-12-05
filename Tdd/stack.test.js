@@ -29,9 +29,9 @@ describe("My Stack", () => {
   }); // test 별 중복되는 코드 작성
 
   it("is created empty", () => {
-    expect(stack.top).toBe(-1); // stack 인스턴스에는 top이라는 property가 있을 것이라 '기대'한다. 그리고 그 값이 -1일 거라 '기대'한다.
-    // toBe의 역할 : 실제 value와 인자로 받은 correct value를 비교한다. (reference의 주소값을 비교하므로 주의)
-    expect(stack.items).toEqual({}); // reference 비교가 아닌 실제 형태를 비교
+    expect(stack.top).toBe(-1); // 원시값 비교)
+    expect(stack.items).toEqual({}); // 객체 비교(얕은 비교)
+    expect(stack.items).toStrictEqual({}); // 깊은 객체 비교(내부 레퍼런스까지 비교)
   });
 
   it("can push to the top", () => {
