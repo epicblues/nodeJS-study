@@ -387,3 +387,54 @@ const canConstruct = (target, wordBank) => {
   return table[target.length];
 };
 ```
+
+### ex7) countConstruct Tabulation
+
+```javascript
+const countConstruct = (target, wordBank) => {
+  const table = Array(target.length + 1)
+    .fill()
+    .map((value) => {
+      return 0;
+    });
+  table[0] = 1;
+  for (let i = 0; i <= target.length; i++) {
+    if (table[i] > 0) {
+      for (let word of wordBank) {
+        if (target.slice(i, i + word.length).indexOf(word) === 0) {
+          // 해당 단어가 조합에 들어맞는다.
+          const next = i + word.length;
+          table[next]++;
+        }
+      }
+    }
+  }
+  return table[target.length];
+};
+```
+
+### ex8) allConstruct Tabulation
+
+```javascript
+const allConstruct = (target, wordBank) => {
+  const table = Array(target.length + 1)
+    .fill()
+    .map(() => {
+      return [];
+    });
+  table[0] = [[]];
+
+  for (let i = 0; i <= target.length; i++) {
+    if (table[i].length !== 0) {
+      for (let word of wordBank) {
+        if (target.slice(i, i + word.length) === word) {
+          const next = i + word.length;
+          const newCombinations = table[i].map((element) => [...element, word]);
+          table[next].push(...newCombinations); // 인자를 여러 개 넣으면 하나 씩 push한다.
+        }
+      }
+    }
+  }
+  return table[target.length];
+};
+```
