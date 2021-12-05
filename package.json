@@ -5,7 +5,7 @@
   "main": "Graph.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll --verbose --coverage",
     "start": "webpack && node ./dist/bundle.js"
   },
   "repository": {
@@ -23,7 +23,9 @@
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
+    "@types/jest": "^27.0.3",
     "babel-loader": "^8.2.3",
+    "jest": "^27.4.3",
     "webpack": "^5.64.0"
   },
   "devDependencies": {

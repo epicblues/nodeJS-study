@@ -13,12 +13,11 @@ const Stack = (function () {
         this.top--;
         return poppedItems;
       },
-    };
-    Object.defineProperty(instance, "peek", {
-      get() {
+      get peek() {
         return this.items[this.top];
       },
-    });
+    };
+
     return instance;
   };
 })();
