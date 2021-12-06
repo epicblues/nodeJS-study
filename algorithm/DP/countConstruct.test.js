@@ -16,7 +16,6 @@ const countConstruct = (target, wordBank) => {
       }
     }
   }
-
   return table[target.length];
 };
 
