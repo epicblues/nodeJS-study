@@ -20,3 +20,18 @@ const stringReverse = (target) => {
   return stringReverse(slicedTarget) + firstChar;
 };
 ```
+
+### ex2) 2진법 구하기
+
+```javascript
+const decimalToBinary = (decimal) => {
+  if (decimal === 1 || decimal === 0) {
+    return String(decimal); // base case(가장 첫 번째 자리수)
+  }
+  // 2로 나누었을 때 떨어지면 0
+  // 2로 나누었을 때 1이 남으면 1
+  const share = Math.floor(decimal / 2);
+  const remainder = Math.ceil(decimal / 2) - share;
+  return decimalToBinary(Math.floor(decimal / 2)) + remainder;
+};
+```
