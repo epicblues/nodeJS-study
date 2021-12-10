@@ -1,76 +1,42 @@
+const { node } = require("webpack");
+
 class Node {
   constructor(data) {
-    this.next = null;
     this.data = data;
+    this.next = null;
   }
-}
-class LinkedList {
-  constructor(...args) {
-    this.head = null;
-    this.length = 0;
+  setNext(node) {
+    this.next = node;
   }
-
-  get(index) {
-    let current = this.head;
-    if (current === null) return undefined;
-    for (let i = 0; i < index; i++) {
-      current = current.next;
-      if (current === null) return undefined;
-    }
-    return current.data;
-  }
-
-  set(data) {
-    if (this.head === null) {
-      this.head = new Node(data);
-      this.length++;
-      return;
-    }
-
-    let current = this.head;
-
-    while (current.next !== null) {
-      current = current.next;
-    }
-    current.next = new Node(data);
-    this.length++;
+  getNext() {
+    return this.next;
   }
 }
 
-const newList = new LinkedList();
-newList.set(5);
-newList.set(4);
-newList.set(3);
-newList.set(2);
-newList.set(1);
-newList.set(6);
+const linkedList = new Node(5);
+const node1 = new Node(4);
+const node2 = new Node(3);
+const node3 = new Node(2);
+const node4 = new Node(1);
 
-function reverseList(list) {
-  if (list.length === 1) return list;
-  if (list.length === 2) {
-    const next = list.head.next;
-    list.head.next.next = list.head;
-    list.head.next = null;
-    list.head = next; // reverse 됐으므로 이 리스트의 시작점도 바꿔야 한다.
+linkedList.setNext(node1);
+node1.setNext(node2);
+node2.setNext(node3);
+node3.setNext(node4);
 
-    return list;
-  }
-  // 길이가 3 이상 Recursive
-  const secondList = new LinkedList();
-  secondList.head = list.head.next;
-  secondList.length = list.length - 1;
-  const reversedList = reverseList(secondList);
-  let node = reversedList.head;
-  for (let i = 0; i < reversedList.length - 1; i++) {
-    node = node.next;
-  }
-  node.next = list.head;
-  list.head = reversedList.head;
-  return list;
-}
+const reverseLinkedList = (list) => {
+  if (list.getNext() === null || list === null) return list;
+  const p = reverseLinkedList(list.getNext());
+  list.getNext().setNext(list);
+  // 여전히 기존 리스트는 다음 리스트가 역전되기 전의 첫 번쨰 node를 포인팅하고 있다는 사실으 ㄹ이ㅛㅇ
+  // 즉 역전된 리스트의 마지막 노드의 next를 list로 바꾸면 된다.
+  list.setNext(null);
 
-test("LinkedList Works", () => {
-  expect(newList.get(4)).toBe(1);
-  expect(newList.length).toBe(6);
-  expect(reverseList(newList).get(3)).toBe(3);
+  return p;
+};
+
+const reversedList = reverseLinkedList(linkedList);
+test("linkedList getNext", () => {
+  // expect(linkedList.getNext().data).toBe(4);
+  expect(reversedList.getNext().data).toBe(2);
 });
