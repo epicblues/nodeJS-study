@@ -167,3 +167,26 @@ const reverseLinkedList = (list) => {
   return p;
 };
 ```
+
+### ex4) merge sortedLinkedList
+
+#### 포인터를 하나만 이동하는 것에 매우 주의하자.
+
+```javascript
+const mergeTwoSortedLinkedLists = (a, b) => {
+  if (a === null || b === null) {
+    return a || b;
+  }
+  if (a.data < b.data) {
+    // a는 b를 바로 포인팅 하는 것이 아니다.
+    // 나머지 요소 중에서 a보다 크고 b보다 작은 노드가 발견될 수 있다.
+    // 나의 실수 : 작은 요소의 다음 요소를 b로 바로 지정했다.
+    a.next = mergeTwoSortedLinkedLists(a.next, b);
+    return a;
+  }
+  {
+    b.next = mergeTwoSortedLinkedLists(a, b.next);
+    return b;
+  }
+};
+```
