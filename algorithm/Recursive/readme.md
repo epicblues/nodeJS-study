@@ -190,3 +190,38 @@ const mergeTwoSortedLinkedLists = (a, b) => {
   }
 };
 ```
+
+### ex5) InsertBinaryTreeNode
+
+```javascript
+class TreeNode {
+  constructor(data) {
+    this.data = data;
+    this.left = null;
+    this.right = null;
+  }
+
+  static insertData(head, value) {
+    if (head === null) {
+      // base case
+      return new TreeNode(value);
+    }
+    if (head.data === value) return head;
+    if (head.data > value) {
+      head.left = this.insertData(head.left, value);
+      // 다른 유형에서도 내가 자주 놓치는 부분
+    } else {
+      head.right = this.insertData(head.right, value);
+    }
+    return head;
+  }
+  static print(head, stringBuffer = []) {
+    if (head === null) return;
+    this.print(head.left, stringBuffer);
+    stringBuffer.push(head.data);
+    this.print(head.right, stringBuffer);
+
+    return stringBuffer;
+  }
+}
+```
