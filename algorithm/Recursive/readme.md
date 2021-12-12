@@ -225,3 +225,31 @@ class TreeNode {
   }
 }
 ```
+
+### ex6) DFS
+
+```javascript
+const DFSNode = (function () {
+  const prototype = {
+    connect(node) {
+      this.edges.push(node);
+    },
+  };
+
+  return function (data) {
+    this.edges = [];
+    this.data = data;
+    this.__proto__ = prototype; // _가 2번 들어갔다는 사실에 주의.
+  };
+})();
+
+DFSNode.traverse = function traverse(node, set = new Set()) {
+  if (set.has(node.data)) return set; // 이미 순회한 node면 set에 추가하지 않는다.
+  set.add(node.data);
+  if (node.edges.length === 0) return set;
+  for (let childNode of node.edges) {
+    traverse(childNode, set);
+  }
+  return set;
+};
+```
