@@ -253,3 +253,21 @@ DFSNode.traverse = function traverse(node, set = new Set()) {
   return set;
 };
 ```
+
+## Tail-Call Recursion Optimization
+
+- Compiler optimization in certain languages to reduce stack overflows;
+  - This works by ensuring the last function call is a recursive one
+  - Rules of Thumbs : Make the recursive call the last instruction
+
+```javascript
+const tailFactorial = (x, multiplier) => {
+  if (x > 0) {
+    return tailFactorial(x - 1, x * multiplier);
+  }
+  return multiplier;
+};
+const factorial = (target) => {
+  return tailFactorial(target, 1);
+};
+```

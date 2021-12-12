@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "Graph.js",
-  "type": "module",
   "scripts": {
     "test": "jest --watchAll --verbose --coverage",
-    "start": "webpack && node ./dist/bundle.js"
+    "start": "webpack && node ./dist/bundle.js",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -23,12 +23,15 @@
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
+    "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.0.3",
     "babel-loader": "^8.2.3",
     "jest": "^27.4.3",
     "webpack": "^5.64.0"
   },
   "devDependencies": {
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3",
     "webpack-cli": "^4.9.1"
   }
 }
