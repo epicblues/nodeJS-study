@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "Graph.js",
+  "module": "commonjs",
   "scripts": {
     "test": "jest --watchAll --verbose --coverage",
     "start": "webpack && node ./dist/bundle.js",

@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    // "module": "CommonJS",
+    "module": "CommonJS",
     "experimentalDecorators": true,
     "target": "ES5",
     "skipLibCheck": true,
     "esModuleInterop": true, // esModule식 export를 제대로 인식하기위해 (es6식 import export 사용하지 않는 라이브러리에 적용)
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "strict": true
     // "allowJs": true
   },
   // "include": ["src/**/*"],
