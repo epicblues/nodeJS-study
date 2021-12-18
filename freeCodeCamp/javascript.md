@@ -88,7 +88,7 @@ let result = fccRegex.test(myString);
 ```
 
 - String.prototype.match
-- 정규표현식을 만족하는 문자열 '배열'을 반환한다.
+- 정규표현식을 만족하는 문자열 '배열'을 반환한다색
 
 ```javascript
 let extractStr = "Extract the word 'coding' from this string.";
@@ -96,7 +96,7 @@ let codingRegex = /coding/;
 let result = extractStr.match(codingRegex); //
 ```
 
-- g : 패턴 검색을 끝까지 한다.(일반적으로는 한 번 검색되면 검색을 멈춘다.)
+- g : 패턴 검색을 끝까지 한다. 검색된 패턴 이후에도 다시 나머지 문자열로 패턴 검색
 - . : wildcard
 - - : 해당 문자 1개 이상
 - - : 해당 문자 0개 이상
@@ -131,6 +131,15 @@ let result = text.match(myRegex);
 * LookBehind : (?<=...) negative (?<!...) positive (대상의 앞의 패턴 점검)
 
 ```javascript
+const replacer = (str) => {
+  const matcher = /(?<=.).(?=.)/g;
+  // "rlaalsdfsdf" => "r**********f"
+  console.log(str.match(matcher));
+  return str.replace(matcher, "*");
+};
+```
+
+```javascript
 let sampleWord = "astronaut";
 let pwRegex = /(?=\w{6,})(?=.*\d{2}.*)/;
 // 6글자 이상 && 연속적인 2숫자가 들어가 있는 패턴
@@ -145,7 +154,7 @@ let result = pwRegex.test(sampleWord);
 
 ```javascript
 let repeatNum = "42 42 42";
-let reRegex = /^(\d+) \1 \1$/;
+let reRegex = /^(\d+) \1 \1$/; // 이 때 \1은 42를 의미하게 된다.
 let result = reRegex.test(repeatNum);
 ```
 
@@ -159,3 +168,91 @@ let fixRegex = /(one) (two) (three)/;
 let replaceText = "$3 $2 $1";
 let result = str.replace(fixRegex, replaceText);
 ```
+
+## Object
+
+### key in object
+
+- prototype property랑 인스턴스 고유의 property 구분 없이 획득
+
+```javascript
+let users = {
+  Alan: {
+    age: 27,
+    online: true,
+  },
+  Jeff: {
+    age: 32,
+    online: true,
+  },
+  Sarah: {
+    age: 48,
+    online: true,
+  },
+  Ryan: {
+    age: 19,
+    online: true,
+  },
+};
+
+function isEveryoneHere(userObj) {
+  // Only change code below this line
+  return (
+    "Alan" in userObj &&
+    "Jeff" in userObj &&
+    "Sarah" in userObj &&
+    "Ryan" in userObj
+  ); // Only change code above this line
+}
+
+console.log(isEveryoneHere(users));
+```
+
+### for (const key in object)
+
+- 이때 value에 접근하기 위해서는 []접근을 해야한다. key가 변수(상수 문자 리터럴이 아니다)이기 때문이다.
+- 나 : .연산자로 접근하려 했다.
+
+### Object.prototype.hasOwnProperty(key)
+
+- 인스턴스 고유의 프로퍼티인지 확인
+
+```javascript
+function Dog(name) {
+  this.name = name;
+}
+
+Dog.prototype.numLegs = 4;
+
+let beagle = new Dog("Snoopy");
+let ownProps = [];
+let prototypeProps = [];
+
+for (let key in beagle) {
+  if (beagle.hasOwnProperty(key)) {
+    ownProps.push(key);
+  } else {
+    prototypeProps.push(key);
+  }
+}
+```
+
+### Remember to Set the Constructor Property when Changing the Prototype
+
+### Object.prototype.isPrototypeOf(instance)
+
+- 해당 객체가 instance의 prototype인지 판별한다.
+
+### Object.create(obj)
+
+- creates a new object, and sets obj as the new object's prototype.
+
+### Public Property
+
+- property that can be accessed and defined outside of object's definition
+
+### IIFE(Immediately Invoked Function Expression)
+
+- 선언되자 마자 바로 실행되는 익명 함수
+- 관련 있는 기능을 모아 놓은 모듈을(Group Related Functionality) 만들 때도 쓰인다.
+- 모듈 사용 이유 : 코드 재사용성.
