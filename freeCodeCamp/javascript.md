@@ -256,3 +256,46 @@ for (let key in beagle) {
 - 선언되자 마자 바로 실행되는 익명 함수
 - 관련 있는 기능을 모아 놓은 모듈을(Group Related Functionality) 만들 때도 쓰인다.
 - 모듈 사용 이유 : 코드 재사용성.
+
+## functional Programming
+
+- One of the core principles of functional programming is to not change things. Changes lead to bugs. It's easier to prevent bugs knowing that your functions don't change anything, including the function arguments or any global variable.
+
+### Mutation : Changing or Altering Things
+
+### Side Effect : Outcome of mutation
+
+### Dependency explicit
+
+- Another principle of functional programming is to always declare your dependencies explicitly. This means if a function depends on a variable or object being present, then pass that variable or object directly into the function as an argument.
+
+### String.prototype.split()
+
+- 주의점 : split조건을 만족하면 빈 요소라도 반환한다.
+
+```javascript
+function urlSlug(title) {
+  return title.trim().toLowerCase().split(/\s/).join("-");
+  // 공백이 연속될 경우 공백 사이의 ''를 배열의 요소로 반환한다.
+}
+```
+
+### function arity
+
+- The arity of a function is the number of arguments it requires. Currying a function means to convert a function of N arity into N functions of arity 1.
+
+```javascript
+function add(x) {
+  return function (y) {
+    return function (z) {
+      return x + y + z; //final statement
+    };
+  };
+}
+const addArrowFuncCurried = (x) => (y) => (z) => x + y + z;
+
+function unCurried(x, y, z) {
+  return x + y + z;
+}
+add(10)(20)(30);
+```
