@@ -140,6 +140,18 @@ const replacer = (str) => {
 ```
 
 ```javascript
+function spinalCase(str) {
+  const strArr = str.split(/\s|(?<=[a-z])(?=[A-Z])|_/g);
+  // split 충족 대상을 제거하고 싶지 않을 때는 LookBehind와 Lookup을 사용한다.
+  // 즉 "" 도 정규표현식이 조건만 만족하면 돌려낼 수 있다.
+  const lowerArr = strArr.map((str) => str.toLowerCase());
+  return lowerArr.join("-");
+}
+// spinalCase("This Is Spinal Tap") should return the string this-is-spinal-tap.
+// spinalCase("thisIsSpinalTap") should return the string this-is-spinal-tap.
+```
+
+```javascript
 let sampleWord = "astronaut";
 let pwRegex = /(?=\w{6,})(?=.*\d{2}.*)/;
 // 6글자 이상 && 연속적인 2숫자가 들어가 있는 패턴
@@ -298,4 +310,178 @@ function unCurried(x, y, z) {
   return x + y + z;
 }
 add(10)(20)(30);
+```
+
+### String.prototype.replace
+
+- 정규표현식에 g flag를 넣지 않는 이상 일치하는 패턴을 찾으면
+- 그것을 바꾸고 더 이상 반복하지 않는다.
+
+### String.prototype.charCodeAt();
+
+- 해당 문자열의 charCode를 반환한다.
+
+### String.fromCharCode(number);
+
+- 해당 숫자와 chacode가 일치하는 문자열을 반환한다.
+
+### break 문 labeling
+
+- 특정 코드 블록으로 이동시키는 것이 아니라
+- 단순히 해당 label이 되어 있는 for 문을 탈출시키는 역할
+
+### loop시 const 선언 주의
+
+- 변수의 값 자체를 바꾸어야 할 때는 let을 선언해야 한다.
+- 자주 하는 실수 : const 선언한 배열을 concat 등을 통해 새로운 배열에 할당
+
+```javascript
+function steamrollArray(arr) {
+  if (!Array.isArray(arr)) return [arr];
+  let answer = []; // const로 사용해서 오답
+  for (let item of arr) {
+    answer = [...answer, ...steamrollArray(item)];
+  }
+  return answer;
+}
+steamrollArray([1, [2], [3, [[4]]]]);
+```
+
+### 함수의 arguments, this
+
+- 화살표 함수가 아닌 일반 함수 표현식에서만 사용 가능
+- 상위 스코프의 arguments, this를 덮어 쓰기 때문에
+- 상위 스코프의 arguments, this를 사용하고 싶으면
+- 따로 변수에 저장해서 전달하거나 화살표 함수를 사용해야 한다.
+
+```javascript
+function addTogether() {
+  if (![...arguments].every((arg) => typeof arg === "number")) return undefined;
+  if (arguments.length === 2) {
+    return arguments[0] + arguments[1];
+  }
+
+  return (arg) => {
+    if (typeof arg !== "number") return undefined;
+    return arguments[0] + arg; // arguments 바인딩이 없으므로 상위 스코프의 arguments를 참조한다.
+  };
+}
+
+addTogether(2, 3);
+```
+
+### 스코프 클로저 활용 예시
+
+```javascript
+const Person = function (firstAndLast) {
+  // constructor 스코프 위에서 함수가 만들어지므로
+  // 상위 스코프의 parameter인 firstAndLast를 기억할 수 있다.
+  // 외부에서 직접 접근해서 제어할 수 없게 된다.
+  this.getFullName = function () {
+    return firstAndLast;
+  };
+  this.getFirstName = function () {
+    return firstAndLast.split(" ")[0];
+  };
+  this.getLastName = function () {
+    return firstAndLast.split(" ")[1];
+  };
+  this.setFirstName = function (first) {
+    firstAndLast = firstAndLast.replace(/^\w+/, first);
+  };
+  this.setLastName = function (last) {
+    firstAndLast = firstAndLast.replace(/\w+$/, last);
+  };
+  this.setFullName = function (newFirstAndLast) {
+    firstAndLast = newFirstAndLast;
+  };
+};
+
+const bob = new Person("Bob Ross");
+bob.getFullName();
+```
+
+### Array.prototype.findIndex(callback)
+
+- Array.prototype.indexOf와 다르게 특정 조건을 가진 아이템의
+- index를 찾을 때 사용한다.
+- Array.prototpye.indexOf는 값을 비교한다(reference 아님)
+
+### 시간 오래 걸린 문제(재귀 상황 잘못 구현)
+
+## 소수점 계산 시 의도되지 않은 오류 가능성
+
+- Number.prototype.toFixed()로 자릿수 제한
+- 문자열을 반환하므로 +나 ParseInt() 등으로 Casting 필요
+
+```javascript
+function checkCashRegister(price, cash, cid) {
+  const total = cid.reduce((prev, curr) => {
+    return +(prev + curr[1]).toFixed(2);
+  }, 0);
+
+  const amount = +(cash - price).toFixed(2);
+
+  if (total === amount) return { status: "CLOSED", change: cid };
+  if (total < amount) return { status: "INSUFFICIENT_FUNDS", change: [] };
+  // 현재 상황 total > amount;
+
+  for (let i = cid.length - 1; i >= 0; i--) {
+    const maxCurVal = cid[i][1];
+    if (maxCurVal === 0) continue;
+    const unit = mapper[cid[i][0]];
+    if (unit > amount) continue;
+    if (unit === amount)
+      return {
+        status: "OPEN",
+        change: [[cid[i][0], unit]],
+      };
+    const newCid = [];
+    for (let tuple of cid) {
+      newCid.push([...tuple]);
+    }
+    newCid[i][1] = +(newCid[i][1] - unit).toFixed(2);
+    const result = checkCashRegister(+(price + unit).toFixed(2), cash, newCid); // 내가 빠진 상태로 준비해봐
+
+    if (result.status === "INSUFFICIENT_FUNDS") continue;
+    if (result.status === "OPEN") {
+      const index = result.change.findIndex((val) => val[0] === cid[i][0]);
+      if (index === -1) {
+        result.change.push([cid[i][0], unit]);
+        result.change.sort((a, b) => mapper[b[0]] - mapper[a[0]]);
+      } else
+        result.change[index][1] = +(result.change[index][1] + unit).toFixed(2);
+      return {
+        status: "OPEN",
+        change: result.change,
+      };
+    }
+  }
+
+  return { status: "INSUFFICIENT_FUNDS", change: [] };
+}
+
+const mapper = {
+  PENNY: 0.01,
+  NICKEL: 0.05,
+  DIME: 0.1,
+  QUARTER: 0.25,
+  ONE: 1,
+  FIVE: 5,
+  TEN: 10,
+  TWENTY: 20,
+  "ONE HUNDRED": 100,
+};
+
+checkCashRegister(3.26, 100, [
+  ["PENNY", 1.01],
+  ["NICKEL", 2.05],
+  ["DIME", 3.1],
+  ["QUARTER", 4.25],
+  ["ONE", 90],
+  ["FIVE", 55],
+  ["TEN", 20],
+  ["TWENTY", 60],
+  ["ONE HUNDRED", 100],
+]);
 ```
