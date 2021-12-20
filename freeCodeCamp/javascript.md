@@ -431,6 +431,8 @@ function checkCashRegister(price, cash, cid) {
     if (maxCurVal === 0) continue;
     const unit = mapper[cid[i][0]];
     if (unit > amount) continue;
+    // 사실 상의 base case
+    // amount를 계속 줄여서 적합한 인자를 찾는다.
     if (unit === amount)
       return {
         status: "OPEN",
@@ -446,6 +448,7 @@ function checkCashRegister(price, cash, cid) {
     if (result.status === "INSUFFICIENT_FUNDS") continue;
     if (result.status === "OPEN") {
       const index = result.change.findIndex((val) => val[0] === cid[i][0]);
+      // 축소시킨 문제를 다시 확장.
       if (index === -1) {
         result.change.push([cid[i][0], unit]);
         result.change.sort((a, b) => mapper[b[0]] - mapper[a[0]]);
