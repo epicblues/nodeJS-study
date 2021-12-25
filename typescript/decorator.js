@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // 호출되는 시점 : class 선언문을 자바스크립트 엔진이 읽을 때
 function decorator() {
     var pDecorator = function (target, key, descriptor) {
-        var original = target[key];
+        var original = descriptor.value;
         console.log(key);
         if (typeof original === "function") {
             console.log("This Property is original");

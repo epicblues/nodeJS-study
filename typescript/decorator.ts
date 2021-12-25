@@ -1,7 +1,11 @@
 // 호출되는 시점 : class 선언문을 자바스크립트 엔진이 읽을 때
 function decorator() {
-  const pDecorator = function (target, key, descriptor) {
-    const original = target[key];
+  const pDecorator = function (
+    target: Object,
+    key: string,
+    descriptor: PropertyDescriptor
+  ) {
+    const original = descriptor.value;
     console.log(key);
     if (typeof original === "function") {
       console.log("This Property is original");
