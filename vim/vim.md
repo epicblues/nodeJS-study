@@ -48,3 +48,9 @@ Vim Basic Commands
 * dG : delete to the bottom of the file
 
 - Final suggestion, don't copy someone's config, build your own and add things when needed to get a better understanding, in addition to being more prepared for using it in server environments where nothing is configured.
+<hr/>
+
+## **/** => searching with regex
+
+- n 다음 검색
+- shift + n 이전 검색
