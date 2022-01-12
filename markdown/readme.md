@@ -59,3 +59,21 @@ _이텔릭_<br/>
 [NAVER](https://naver.com "NAVER로 이동!")
 
 <a href="https://naver.com" title="NAVER로 이동!" target="_blank">NAVER</a>
+
+[![casdf](https://img.shields.io/badge/TypeScript-V4.4.4-blue)](https://naver.com)
+![typescript](https://img.shields.io/badge/TypeScript-000000?style=for-the-badge&logo=typescript&)
+
+## 다중 링크
+
+---
+
+[![badge](https://img.shields.io/badge/TypeScript-000000?style=for-the-badge&logo=typescript&)
+![](https://img.shields.io/badge/Docker-000000?style=for-the-badge&logo=docker&)
+![badge](https://img.shields.io/badge/React-000000?style=for-the-badge&logo=react&)
+![badge](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&)
+![badge](https://img.shields.io/badge/Jenkins-000000?style=for-the-badge&logo=jenkins&logoColor=FFFFFF)
+![badge](https://img.shields.io/badge/socket.io-000000?style=for-the-badge&logo=socket.io&logoColor=FFFFFF)
+![badge](https://img.shields.io/badge/Node.js-000000?style=for-the-badge&logo=node.js&logoColor=FFFFFF)
+![badge](https://img.shields.io/badge/MongoDB-000000?style=for-the-badge&logo=mongodb&logoColor=green)
+![badge](https://img.shields.io/badge/GraphQL-000000?style=for-the-badge&logo=graphql&logoColor=red)
+![badge](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&)](https://github.com/epicblues)
