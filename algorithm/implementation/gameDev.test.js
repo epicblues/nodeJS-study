@@ -26,12 +26,12 @@ const myAnswers = (input = "") => {
   let firstWatch = watch;
   while (true) {
     // 회전
-    console.log(visited);
+
     nWatch = (nWatch + 5) % 4;
     // 이동 예측하기
     let nx = cx + dx[nWatch];
     let ny = cy + dy[nWatch];
-    console.log(ny, nx);
+
     if (
       nx >= M ||
       nx < 0 ||
@@ -53,14 +53,12 @@ const myAnswers = (input = "") => {
           realMap[cy][cx] === 1
           // 뒤쪽이 바다거나 맵의 지형을 초과한 경우
         ) {
-          console.log("end");
           break;
         }
         count++; // 뒤가 바다가 아니므로 계속
         visited[cy][cx]++;
-        console.log("뒤로 이동");
       }
-      console.log("그냥 방향전환");
+
       continue;
     }
 
