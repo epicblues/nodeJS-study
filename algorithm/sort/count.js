@@ -17,5 +17,3 @@ for (let k = 0; k < answer.length; k++) {
 }
 
 console.log(buffer.join(" "));
-
-[].sort();
