@@ -162,3 +162,175 @@ console.log(graph);
 3. 2번의 과정을 더 이상 수행할 수 없을 떄까지 반복한다.
 
 - 코딩 테스트 중 2차원 배열에서의 탐색 문제를 만나면 이렇게 그래프 형태로 바꿔서 생각하면 풀이 방법을 조금 더 쉽게 떠올릴 수 있다.
+
+# 정렬
+
+- 정렬 알고리즘으로 데이터를 정렬하면 이진 탐색이 가능
+
+## 선택 정렬
+
+- 가장 작은 데이터를 선택해 맨 앞에 있는 데이터와 바꾸고, 그 다음 작은 데이터를 선택해 앞에서 두 번째 데이터와 바꾸는 과정을 반복
+
+- 선택 정렬은 코딩 테스트에서 사용하기에 매우 비효율적이나, 특정한 리스트에서 가장 작은 데이터를 찾는 일이 코딩 테스트에서 잦으므로 소스코드에 익숙해질 필요가 있다.
+
+  ```javascript
+  const array = [7, 5, 9, 0, 3, 1, 6, 2, 4, 8];
+  for (i = 0; i < array.length; i++) {
+    // 시작점
+    let min_index = i;
+    for (let j = i; j < array.length; j++) {
+        // 특정한 리스트에서 가장 작은 데이터 찾기
+      if (array[j] < array[min_index]) {
+        min_index = j;
+      }
+    }
+    const temp = array[i];
+    array[i] = array[min_index];
+    array[min_index] = temp;
+  }
+  console.log(array);
+  
+  ```
+
+  ## 삽입 정렬
+
+  * "데이터를 하나씩 확인하며, 각 데이터를 적절한 위치에 삽입하면 어떨까?"
+
+  * 선택 정렬은 현재 데이터의 상태와 상관없이 무조건 모든 원소를 비교하고 위치를 바꾸는 반면 삽입 정렬은 그렇지 않다.
+
+    ```bash
+    # 삽입 정렬은 특정한 데이터가 적절한 위치에 들어가기 이전에, 그 앞까지의 데이터는 이미 정렬되어 있다고 가정한다. 정렬되어 있는 데이터 리스트에서 적절한 위치를 찾은 뒤에 그 위치에 삽입된다는 점이 특징이다.
+    ```
+
+  * 삽입 정렬은 두 번째 데이터부터 시작한다. 왜냐하면 첫 번쨰 데이터는 그 자체로 정렬되어 있다고 판단하기 때문이다. 
+
+  * 원소가 정렬이 이루어져 있기 때문에 새로운 원소를 넣을 때 그 원소보다 작거나 (오름차순) 큰(오름차순) 조건을 만족시키면 그 자리에 원소를 넣으면 된다.
+
+  ```javascript
+  const array = [7, 5, 9, 0, 3, 1, 6, 2, 4, 8];
+  
+  for (let i = 1; i < array.length; i++) {
+    for (let j = i; j > 0; j--) {
+      // 정렬된 나머지 배열 + 정렬 대상 원소 하나를 묶는다.
+      // 해당 원소가 제자리(이전 원소보다 큰)를 찾을 떄 까지 순회한다.
+      if (array[j] < array[j - 1]) {
+        // 비정상
+        // 정상으로 바꾼다.
+        let temp = array[j];
+        array[j] = array[j - 1];
+        array[j - 1] = temp;
+      } else {
+        // 한 번 정상이 되면(이전 원소보다 크면)
+        // 나머지 원소보다 큰 것은 보장(오름차순/내림차순)되므로
+        // 순회를 종료효ㅏㄴ다.
+        break;
+      }
+    }
+  }
+  
+  console.log(array);
+  
+  ```
+
+  
+
+  ### 삽입 정렬의 시간 복잡도
+
+  * 삽입 정렬의 시간 복잡도는 O(N<sup>2</sup>)인데, 선택 정렬과 마찬가지로 반복문이 2번 중첩되어 사용. 최선의 경우 O(N)의 시간 복잡도를 가진다.(**현재 리스트의 데이터가 거의 정렬되어 있는 상태**일 때 빠르게 동작)
+
+  ## 퀵 정렬
+
+- 병합 정렬과 함께 가장 많이 사용되는 알고리즘
+
+  - 프로그래밍 언어에서 정렬 라이브러리의 근간이 되는 알고리즘
+
+- 핵심 아이디어
+
+  - ```
+    기준 데이터를 설정하고 그 기준보다 큰 데이터와 작은 데이터의 위치를 바꾸면 어떨까?
+    ```
+
+  * 기준(**Pivot**)을 설정한 다음 큰 수와 작은 수를 교환한 후 리스트를 반으로 나누는 방식
+
+  * 호어 분할
+    * 리스트에서 첫 번째 데이터를 피벗으로 정한다.
+
+  ```javascript
+   const array = [5, 7, 9, 0, 3, 1, 6, 2, 4, 8];
+  
+    function quick(start, end, arr) {
+      // 원소가 1개인 경우 종료
+      if (start >= end) return;
+      let pivot = start;
+      let left = start + 1;
+      let right = end;
+  
+      while (left <= right) {
+        if (arr[left] > arr[pivot] && arr[right] < arr[pivot]) {
+          const temp = arr[left];
+          arr[left] = arr[right];
+          arr[right] = temp;
+        }
+  
+        if (arr[left] <= arr[pivot]) {
+          left++;
+        }
+        if (arr[right] >= arr[pivot]) {
+          right--;
+        }
+      }
+  
+      // pivot 기준 정렬 완료
+      let temp = arr[pivot];
+      arr[pivot] = arr[right];
+      arr[right] = temp;
+      // 1차 sort 완료;
+      // 내가 실수한 것 : 첫 번쨰 sort는 피벗 값에서 시작한다.
+      quick(pivot, right - 1, arr);
+      quick(right + 1, arr.length - 1, arr);
+    }
+  
+    quick(0, array.length - 1, array);
+  
+  
+  ```
+
+  * 퀵 정렬의 시간 복잡도 : _O(NlogN)_
+
+  * **최악의 경우 시간 복잡도가 _O(N<sup>2</sup>)_ 란ㄴ 것이다.
+
+  * **일반적으로 컴퓨터 과학에서 log의 의미는 밑이 2인 로그를 의미한다.**
+
+    ## 계수 정렬(Count Sort)
+
+    * 데이터의 크기 범위가 제한되어 정수 형태로 표현할 수 있을 때만 사용 가능
+      * 모든 범위를 담을 수 있는 크기의 배열을 선언해야 하기 때문에.
+    * 계수 정렬은 다른 알고리즘 처럼 직접 데이터의 값을 비교한 뒤에 위치를 변경하며 정렬하는 방식(**비교 기반 정렬 알고리즘**)이 아니다.
+
+    ```javascript
+    const arr = [7, 5, 9, 0, 3, 1, 6, 2, 9, 1, 4, 8, 0, 5, 2];
+    
+    // 모든 범위를 포함하는 리스트 선언
+    const answer = Array(Math.max(...arr) + 1).fill(0);
+    
+    // arr를 순회하면서 count
+    for (let num of arr) {
+      answer[num]++;
+    }
+    
+    let buffer = [];
+    
+    // count 한 것을 출력하기
+    for (let k = 0; k < answer.length; k++) {
+      for (let i = 0; i < answer[k]; i++) {
+        buffer.push(k);
+      }
+    }
+    
+    console.log(buffer.join(" "));
+    ```
+
+    * 시간 복잡도 (N : 데이터의 개수, K :  데이터의 최대값): _O(N + K)_
+    * 공간 복잡도 : _O(N + K)_
+      * 데이터의 크기가 한정되어 있고, 데이터의 크기가 많이 중복되어 있을수록 유리하다.
+        * ex) 0과 999999만 존재 -> 공간 복잡도 1000001
