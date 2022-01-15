@@ -1,0 +1,25 @@
+$color: red;
+
+ul {
+  font-size: 14px;
+  color: $color;
+}
+
+div {
+  div {
+    background-color: red;
+  }
+}
+
+
+// 객체 처럼 속성 묶음을 변수로 활용가능
+%MyVar {
+  background-color: red;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.kms {
+  // 변수 활용 시에는 @extend 사용
+  @extend %MyVar;
+}
