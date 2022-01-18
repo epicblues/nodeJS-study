@@ -13,6 +13,9 @@ const graph = Array(N + 1)
 const visited = Array(N + 1).fill(false);
 
 // 처음에는 무한의 수로 시작한다.
+// heap 자료구조로 만들어보기
+// 넣는 데이터 : 튜플 ([대상 노드, 비용])
+
 const distance = Array(N + 1).fill(INF);
 distance[start] = 0;
 
@@ -20,6 +23,11 @@ nodes.forEach((str) => {
   const [start, target, cost] = str.split(" ").map((i) => +i);
   graph[start].push([target, cost]);
 });
+
+const heapPush = (heap = [], tuple = [1, 1]) => {
+  heap.push(tuple);
+  if (heap.length === 1) return;
+};
 
 const getShortestNode = () => {
   let min = INF + 1;
