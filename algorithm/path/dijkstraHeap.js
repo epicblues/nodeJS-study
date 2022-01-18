@@ -1,3 +1,5 @@
+const { heapPop, heapPush } = require("./heap.js");
+
 const [meta, s, ...nodes] = require("fs")
   .readFileSync("/dev/stdin")
   .toString()
@@ -24,28 +26,13 @@ nodes.forEach((str) => {
   graph[start].push([target, cost]);
 });
 
-const heapPush = (heap = [], tuple = [1, 1]) => {
-  heap.push(tuple);
-  if (heap.length === 1) return;
-};
+const queue = [];
+heapPush(queue, [start, 0]);
 
-const getShortestNode = () => {
-  let min = INF + 1;
-  let minNode = -1; // 최소 node를 구하지 못했을 경우;
-  // 가능성 : 모든 visited가 true가 되면 for문은 계속 continue;
-  for (let i = 1; i < distance.length; i++) {
-    if (visited[i]) continue;
-    if (distance[i] < min) {
-      min = distance[i];
-      minNode = i;
-    }
-  }
-
-  return minNode;
-};
-
-let target = getShortestNode();
-while (target !== -1) {
+while (queue.length > 0) {
+  let [target, dist] = heapPop(queue);
+  // 틀린 부분
+  if (visited[target]) continue;
   visited[target] = true;
   for (let edge of graph[target]) {
     let nextNode = edge[0];
@@ -55,10 +42,9 @@ while (target !== -1) {
     // 검증된 target으로 오는 최단 거리 비용 + 다음 node로 이동할 비용 비교
     if (distance[nextNode] > distance[target] + nextDistance) {
       distance[nextNode] = nextDistance + distance[target];
+      heapPush(queue, [nextNode, distance[nextNode]]);
     }
   }
-
-  target = getShortestNode();
 }
 
 console.log(distance.slice(1).join("\n"));
