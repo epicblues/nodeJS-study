@@ -34,10 +34,7 @@ type MyClassType = MyInstanceType<typeof MyClass>;
 
 // 나만의 데코레이터 만들어보기
 type ConstructorType<T> = new (...args: any[]) => T;
-// targetClass의 Type을 해당 타입을 활용하는 식에서 다시 활용
-// extends의 개념이라 new (args:any[])가 아니라 T의 식에 맞는 구체적인 타입이 반환된다.
 
-// 함수가 호출될 때 받을 떄 type이 계산된다.
 function myClassDecorator<T extends ConstructorType<{}>>(targetClass: T) {
   // {}는 모든 객체 타입의 조상?
   // any를 강제적으로 요구하는 조건 사라짐
