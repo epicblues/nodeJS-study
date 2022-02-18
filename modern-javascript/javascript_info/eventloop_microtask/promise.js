@@ -8,10 +8,10 @@ setTimeout(() => console.log("SetTimeout  Macrotask")); //5
 console.log("메인 스택 Promise 생성 전"); // 1
 
 new Promise((resolve) => {
-  console.log("promise executor 동기적"); // 3
+  console.log("promise executor 동기적"); // 2
   resolve();
 }).then(() => {
   console.log("Promise Handler Microtask"); // 4
 });
 
-console.log("메인 스택 Promise 생성 후"); // 2
+console.log("메인 스택 Promise 생성 후"); // 3
