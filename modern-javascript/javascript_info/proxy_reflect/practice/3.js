@@ -1,12 +1,11 @@
-const handlers = Symbol("handler");
-
 function makeObservable(target) {
+  const handlers = Symbol("handler");
   target[handlers] = [];
   target.observe = function (cb) {
     this[handlers].push(cb);
   };
   const proxy = new Proxy(target, {
-    set(target, prop, value, receiver) {
+    set(target, prop, value) {
       const success = Reflect.set(...arguments);
       if (success) {
         target[handlers].forEach((handler) => handler(prop, value));
